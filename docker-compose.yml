@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /usr/app/node_modules
+      - .:/usr/app
+  # Create a test container in order to run the tests at the 
+  # same time. This has the shortcomming of mixing the messages
+  # from both processes
+  # test:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.dev
+  #   volumes:
+  #     - /usr/app/node_modules
+  #     - .:/usr/app
+  #   command: ["npm","run","test"]

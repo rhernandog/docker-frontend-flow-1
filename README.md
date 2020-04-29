@@ -1,68 +1,19 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Docker Front End Flow One
 
-## Available Scripts
+### Description
+First sample of a real development/production flow using Docker, Github, Travis CI and AWS to deploy a simple web app to AWS using a Docker image.
 
-In the project directory, you can run:
+### Important Notes
+- Because we have a development and production environments we create a new file called `Dockerfile.dev` that creates the image for development only. In order to build the image with this file, we must pass a flag to the regular build command `-f` in order to specify the **Dockerfile** used to build the image: `docker build -f Dockerfile.dev .`
+- Since the application is running from the Docker container, which is a file system snapshot, it already contains the folders and files from the `node_modules` folder, so there is no need to keep that folder in the local machine.
+-  In order to allow the hot reload feature that webpack dev server has, Docker uses **[volumes](https://docs.docker.com/storage/volumes/)** in order to bind the data in the source code that will be updated continously in development to the running container, without constantly re-building the image. For that we use the `-v` flag in the `docker run` command: `docker run -p 3000:3000 -v /usr/app/node_modules -v ${pwd}:/usr/app <image_id>`. The first `-v` flag indicates that the `node_modules` folder is not bind to any folder in the local machine. The second `-v` flag indicates that the `/usr/app` folder in the running container should be mapped to the root folder of the project. `-v <local_machine_folder>:<running_container_folder>`. The `${pwd}` stands for **print working folder**, and returns the current folder where the command is executed. In Unix and Mac the command uses parenthesis instead of curly braces: `$(pwd)`.
+- In order to run the tests, we need to override the default start command passed to the docker image, for that we write the command after the image ID: `docker run <image_id> npm run test`.
+- We can create a docker compose file in order to avoid writing those long commands in the command line. When the docker compose file is created with the volumes binding between the local environment and the running container, and we run the app we can run the test suite by opening another terminal and executing with the `-it` flag in order to run a command in the running container using the **standard input stream** in order to run the test command in that container: `docker exec -it <container_id> npm run test`.
 
-### `npm start`
+### Author
+- Rodrigo Hernando G.
+- [@websnap](https://twitter.com/websnapcl/)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+------
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+##### NEXT LECTURE 20
