@@ -11,4 +11,6 @@ before_install:
 script:
   # In order to run the tests we need to override the initial
   # command when running the app image
-  - docker run rhernandog/docker-frontend-flow-1 npm run test -- --coverage
+  # In order to prevent the tests from not exiting the process 
+  # add either the -- --coverage flag or the --watchAll=false flag
+  - docker run rhernandog/docker-frontend-flow-1 npm run test --watchAll=false
