@@ -6,7 +6,7 @@ services:
 before_install:
   # In order to access the docker image later
   # create a tag in it
-  - docker build -f -t rhernandog/docker-frontend-flow-1 Dockerfile.dev .
+  - docker build -t rhernandog/docker-frontend-flow-1 -f Dockerfile.dev .
 
 script:
   # In order to run the tests we need to override the initial
