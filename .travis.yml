@@ -1,0 +1,14 @@
+sudo: required
+
+services: 
+  - docker
+
+before_install:
+  # In order to access the docker image later
+  # create a tag in it
+  - docker build -f -t rhernandog/docker-frontend-flow-1 Dockerfile.dev .
+
+script:
+  # In order to run the tests we need to override the initial
+  # command when running the app image
+  - docker run rhernandog/docker-frontend-flow-1 npm run test -- --coverage
