@@ -6,22 +6,22 @@ services:
 before_install:
   # In order to access the docker image later
   # create a tag in it
-  - docker build -t rhernandog/docker-frontend-flow-1 -f Dockerfile.dev .
+  - docker build -t rhernandog/docker-frontend-flow -f Dockerfile.dev .
 
 script:
   # In order to run the tests we need to override the initial
   # command when running the app image
   # In order to prevent the tests from not exiting the process 
   # add either the -- --coverage flag or the --watchAll=false flag
-  - docker run rhernandog/docker-frontend-flow-1 npm run test -- --watchAll=false
+  - docker run rhernandog/docker-frontend-flow npm run test -- --watchAll=false
 
 deploy:
   provider: elasticbeanstalk
   region: "sa-east-1"
-  app: "docker-frontend-flow-1"
-  env: "DockerFrontendFlow1-env"
+  app: "docker-frontend-flow"
+  env: "DockerFrontendFlow-env"
   bucket_name: "elasticbeanstalk-sa-east-1-867242831151"
-  bucket_path: "docker-frontend-flow-1"
+  bucket_path: "docker-frontend-flow"
   on: 
     branch: master
   access_key_id: $AWS_ACCESS_KEY_ID

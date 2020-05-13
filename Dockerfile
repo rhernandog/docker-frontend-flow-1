@@ -16,6 +16,7 @@ COPY . .
 RUN npm run build
 
 FROM nginx
+EXPOSE 80
 
 # Copy only the files from the /app/build folder in the builder
 # phase to the target folder indicated by the nginx docs
